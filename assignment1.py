@@ -28,17 +28,17 @@ model = Prophet(changepoint_prior_scale=0.5) #chaangepoint prior scale needs to 
 modelFit = model.fit(dataFilter)  
 
 # Create an empty dataframe with dates for future periods
-future = modelFit.make_future_dataframe(periods=745, freq ='H') #make the number of periods 745 for the 745 (this will end up giving 744 which is what we want, idk why) hours in January of 2019 (the following year), make the frequency = 'H' so that the predictions are made in hours
+future = modelFit.make_future_dataframe(periods=744, freq ='H') #make the number of periods 744 for the 744 hours in January of 2019 (the following year), make the frequency = 'H' so that the predictions are made in hours
 # Predict will fill in  empty dataframe wtih forecasts of `y` for the future periods
 pred_full = modelFit.predict(future)
 
 pred_full.head() #to get a quick pic of the forecasts created 
 
-#this will give us back out 745 (this will end up giving 744 which is what we want, idk why) periods of forcast at the end of the data frame, this will create a list of floats
-pred_float = pred_full['yhat'][-745:]
+#this will give us back out 744 periods of forcast at the end of the data frame, this will create a list of floats
+pred = pred_full['yhat'][-744:]
 
 #also now need to covert numbersin pred from floats to integers. Will give a list of vlaues back
-pred = [int(x) for x in pred_float] 
+#pred = [int(x) for x in pred_float] 
 
 fig1 = modelFit.plot(pred_full)
 fig1.show()
