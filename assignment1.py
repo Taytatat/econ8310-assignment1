@@ -30,15 +30,18 @@ modelFit = model.fit(dataFilter)
 # Create an empty dataframe with dates for future periods
 future = modelFit.make_future_dataframe(periods=744, freq ='H') #make the number of periods 744 for the 744 hours in January of 2019 (the following year), make the frequency = 'H' so that the predictions are made in hours
 # Predict will fill in  empty dataframe wtih forecasts of `y` for the future periods
-pred = modelFit.predict(future)
+pred_full = modelFit.predict(future)
 
-pred.head() #to get a quick pic of the forecasts created 
+pred_full.head() #to get a quick pic of the forecasts created 
 
-#this will give us back out 744 periods of forcast at the end of the data frame
-pred['yhat'][-744:]
-fig1 = modelFit.plot(pred)
+#this will give us back out 744 periods of forcast at the end of the data frame, this will create a list of floats
+pred_float = pred_full['yhat'][-744:]
+
+#also now need to covert numbersin pred from floats to integers. Will give a list of vlaues back
+pred = [int(x) for x in pred_float] 
+
+fig1 = modelFit.plot(pred_full)
 fig1.show()
 
-fig2 = modelFit.plot_components(pred)
+fig2 = modelFit.plot_components(pred_full)
 fig2.show()
-
